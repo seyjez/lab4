@@ -99,7 +99,7 @@ void Filesystem::insert_element(std::string account, std::string data,
                                                     account);
   std::vector<std::string>::difference_type index = std::distance
       (_account.begin(), it);
-  if (_account.size() == (size_t) index) {
+  if (_account.size() == static_cast<size_t>(index)  ) {
     _account.push_back(account);
     _broker.push_back(broker);
     _files.push_back(1);
