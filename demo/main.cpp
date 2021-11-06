@@ -1,5 +1,5 @@
-#include <example.hpp>
-
+#include <header.hpp>
+#include <iostream>
 int main() {
-  example();
+  std::cout<<"all system in online!";
 }
