@@ -14,7 +14,8 @@ Filesystem::Filesystem(const std::string path_to_file){
 }
 
 void Filesystem::all_path(boost::filesystem::path p, std::ostream &out) {
-  for (const boost::filesystem::directory_entry& x : boost::filesystem::directory_iterator{p}) {
+  for (const boost::filesystem::directory_entry& x :
+       boost::filesystem::directory_iterator{p}) {
     if (is_directory(x.path()))
       all_path(x.path(), out);
     else if (is_regular_file(x.path()))
