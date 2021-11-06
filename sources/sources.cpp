@@ -73,7 +73,7 @@ std::string Filesystem::what_data(std::string p){
   if (iterator2 == std::string::npos) return std::string();
   std::string data = p.substr(iterator1, iterator2-iterator1);
 
-  if (data.find_first_not_of(_numbers,0) != std::string::npos)
+  if (data.find_first_not_of(_numbers, 0) != std::string::npos)
     return std::string();
   return data;
 }
