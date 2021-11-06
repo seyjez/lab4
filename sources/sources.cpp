@@ -4,9 +4,8 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace boost::filesystem;
 Filesystem::Filesystem(const std::string path_to_file){
-  _path_to_ftp = path(path_to_file);
+  _path_to_ftp = boost::filesystem::path(path_to_file);
   std::cout << _path_to_ftp << std::endl;
   if (is_symlink(_path_to_ftp))
     _path_to_ftp = read_symlink(_path_to_ftp);
@@ -14,8 +13,8 @@ Filesystem::Filesystem(const std::string path_to_file){
     throw std::runtime_error("This path is not directory");
 }
 
-void Filesystem::all_path(path p, std::ostream &out) {
-  for (const directory_entry& x : directory_iterator{p}) {
+void Filesystem::all_path(boost::filesystem::path p, std::ostream &out) {
+  for (const boost::filesystem::directory_entry& x : boost::filesystem::directory_iterator{p}) {
     if (is_directory(x.path()))
       all_path(x.path(), out);
     else if (is_regular_file(x.path()))
@@ -23,7 +22,7 @@ void Filesystem::all_path(path p, std::ostream &out) {
   }
 }
 
-bool Filesystem::handler(path p, std::ostream &out) {
+bool Filesystem::handler(boost::filesystem::path p, std::ostream &out) {
   if (check_fiilename(p)) {
     std::string file_name = p.filename().string();
     std::string account = what_account(file_name);
@@ -40,7 +39,7 @@ bool Filesystem::handler(path p, std::ostream &out) {
   }
 }
 
-bool Filesystem::check_fiilename(path p){
+bool Filesystem::check_fiilename(boost::filesystem::path p){
   const std::string _txt = ".txt";
   const std::string _balance = "balance";
 
@@ -78,7 +77,7 @@ std::string Filesystem::what_data(std::string p){
   return data;
 }
 
-std::string Filesystem::what_broker(path p){
+std::string Filesystem::what_broker(boost::filesystem::path p){
   p = absolute(p);
   std::size_t iterator2 = p.string().find_last_of('/');
   if (iterator2 == std::string::npos) return std::string();
