@@ -18,7 +18,9 @@ class Filesystem {
   std::string what_data(std::string p);
   std::string what_broker(boost::filesystem::path p);
   void show_account(std::ostream &out);
-  void insert_element(std::string account,std::string data,std::string broker);
+  void insert_element(std::string account,
+                      std::string data,
+                      std::string broker);
   friend std::ostream& operator<<(std::ostream &out, Filesystem& file_system);
  private:
   boost::filesystem::path _path_to_ftp;
