@@ -4,13 +4,13 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace  boost::filesystem;
+using namespace boost::filesystem;
 Filesystem::Filesystem(const std::string path_to_file){
   _path_to_ftp = path(path_to_file);
-  std::cout<<_path_to_ftp<<std::endl;
-  if(is_symlink(_path_to_ftp))
-    _path_to_ftp=read_symlink(_path_to_ftp);
-  if(!is_directory(_path_to_ftp))
+  std::cout << _path_to_ftp << std::endl;
+  if (is_symlink(_path_to_ftp))
+    _path_to_ftp = read_symlink(_path_to_ftp);
+  if (!is_directory(_path_to_ftp))
     throw std::runtime_error("This path is not directory");
 }
 
@@ -24,7 +24,7 @@ void Filesystem::all_path(path p, std::ostream &out) {
 }
 
 bool Filesystem::handler(path p, std::ostream &out) {
-  if(check_fiilename(p)) {
+  if (check_fiilename(p)) {
     std::string file_name = p.filename().string();
     std::string account = what_account(file_name);
     std::string data = what_data(file_name);
@@ -32,20 +32,20 @@ bool Filesystem::handler(path p, std::ostream &out) {
 
     if (account.size() == 0 || data.size() == 0 || broker.size() == 0)
       return false;
-    out<<broker<<" "<<file_name<<std::endl;
+    out << broker << " " <<file_name << std::endl;
     insert_element(account, data, broker);
     return true;
-  }
-  else
+  }else {
     return false;
+  }
 }
 
 bool Filesystem::check_fiilename(path p){
   const std::string _txt = ".txt";
   const std::string _balance = "balance";
 
-  if(p.extension()==_txt && p.filename().size() == len_namefile &&
-      p.filename().string().substr(0, 7)==_balance)
+  if (p.extension() == _txt && p.filename().size() == len_namefile &&
+      p.filename().string().substr(0, 7) == _balance)
     return true;
   else
     return false;
@@ -53,13 +53,13 @@ bool Filesystem::check_fiilename(path p){
 
 std::string Filesystem::what_account(std::string p){
   std::size_t iterator1 = p.find_first_of('_', 0);
-  if(iterator1 == std::string::npos)  return std::string();
+  if (iterator1 == std::string::npos)  return std::string();
   ++iterator1;
   std::size_t iterator2 = p.find_last_of('_');
-  if(iterator2 == std::string::npos) return std::string();
+  if (iterator2 == std::string::npos) return std::string();
   std::string account = p.substr(iterator1, iterator2-iterator1);
 
-  if(account.find_first_not_of(_numbers,0) != std::string::npos)
+  if (account.find_first_not_of(_numbers, 0) != std::string::npos)
     return std::string();
 
   return account;
@@ -67,13 +67,13 @@ std::string Filesystem::what_account(std::string p){
 
 std::string Filesystem::what_data(std::string p){
   std::size_t iterator1 = p.find_last_of('_');
-  if(iterator1 == std::string::npos) return std::string();
+  if (iterator1 == std::string::npos) return std::string();
   ++iterator1;
   std::size_t iterator2 = p.find_last_of('.');
-  if(iterator2 == std::string::npos) return std::string();
+  if (iterator2 == std::string::npos) return std::string();
   std::string data = p.substr(iterator1, iterator2-iterator1);
 
-  if(data.find_first_not_of(_numbers,0) != std::string::npos)
+  if (data.find_first_not_of(_numbers,0) != std::string::npos)
     return std::string();
   return data;
 }
@@ -81,10 +81,10 @@ std::string Filesystem::what_data(std::string p){
 std::string Filesystem::what_broker(path p){
   p = absolute(p);
   std::size_t iterator2 = p.string().find_last_of('/');
-  if(iterator2 == std::string::npos) return std::string();
+  if (iterator2 == std::string::npos) return std::string();
   --iterator2;
   std::size_t iterator1 = p.string().find_last_of('/', iterator2);
-  if(iterator1 == std::string::npos) return std::string();
+  if (iterator1 == std::string::npos) return std::string();
   ++iterator1;
   ++iterator2;
   std::string broker = p.string().substr(iterator1, iterator2-iterator1);
@@ -99,7 +99,7 @@ void Filesystem::insert_element(std::string account, std::string data,
                                                     account);
   std::vector<std::string>::difference_type index = std::distance
       (_account.begin(), it);
-  if(_account.size() == (size_t) index) {
+  if (_account.size() == (size_t) index) {
     _account.push_back(account);
     _broker.push_back(broker);
     _files.push_back(1);
@@ -108,8 +108,7 @@ void Filesystem::insert_element(std::string account, std::string data,
     ++_files[index];
     _lastdate[index] = (_lastdate[index] > std::stoi(data))?
                                                             _lastdate[index]:std::stoi(data);
-  }
-  else{
+  }else{
     throw std::runtime_error("Two owners per account");
   }
 }
@@ -126,3 +125,4 @@ std::ostream& operator<<(std::ostream &out,  Filesystem& file_system) {
   file_system.show_account(out);
   return out;
 }
+

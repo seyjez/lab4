@@ -1,14 +1,16 @@
 // Copyright by C-developers1488
 
-#ifndef INCLUDE_HEADER_HPP
-#define INCLUDE_HEADER_HPP
+#ifndef INCLUDE_HEADER_HPP_
+#define INCLUDE_HEADER_HPP_
 
 
 #include <boost/filesystem.hpp>
 #include <vector>
+#include <string>
+
 class Filesystem {
  public:
-  Filesystem(const std::string path_to_file);
+  explicit Filesystem(const std::string path_to_file);
   void all_path(boost::filesystem::path p, std::ostream &out);
   bool handler(boost::filesystem::path p, std::ostream &out);
   bool check_fiilename(boost::filesystem::path p);
@@ -22,11 +24,13 @@ class Filesystem {
   boost::filesystem::path _path_to_ftp;
   std::vector<std::string> _broker;
   std::vector<std::string> _account;
-  std::vector<long int> _files;
-  std::vector<long int> _lastdate;
+  std::vector<int64_t> _files;
+  std::vector<int64_t> _lastdate;
 
   const size_t len_namefile = 29;
   const std::string _numbers = "0123456789";
 };
 
-#endif  //  INCLUDE_HEADER_HPP
+#endif  //  INCLUDE_HEADER_HPP_
+
+
