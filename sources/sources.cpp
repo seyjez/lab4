@@ -1,4 +1,4 @@
-// Copyright by C-developers1488
+// Copyright by seyjez
 
 #include "header.hpp"
 #include <iostream>
